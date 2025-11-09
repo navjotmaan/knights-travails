@@ -7,10 +7,33 @@ const moves = [
     [1, -2], [2, -1], [-1, -2], [-2, -1]
 ];
 
-function knightMoves([x, y]) {
+function getKnightMoves([x, y]) {
     return moves
         .map(([dx, dy]) => [x + dx, y + dy])
         .filter(isInsideBoard);
 }
 
-console.log(knightMoves([4, 4]))
+function knightMoves(start, target) {
+    const queue = [start];
+    const visited = new Set();
+    visited.add(start.toString());
+
+    const parent = {};
+
+    while(queue.length > 0) {
+        const current = queue.shift();
+
+        if (current[0] === target[0] && current[1] === target[1]) {
+            break;
+        }
+
+        for (const next of getKnightMoves(current)) {
+            const key = next.toString();
+            if(!visited.has(key)) {
+                visited.add(key);
+                parent[key] = current;
+                queue.push(next);
+            }
+        }
+    }
+}
