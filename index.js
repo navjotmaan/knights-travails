@@ -36,4 +36,19 @@ function knightMoves(start, target) {
             }
         }
     }
+
+    const path = [];
+    let current = target;
+
+    while (current) {
+        path.push(current);
+        const key = current.toString();
+        current = parent[key];
+    }
+
+    path.reverse();
+    return `You made it in ${path.length - 1} moves! Here's your path:\n` +
+            path.map(pos => `[${pos[0]}, ${pos[1]}]`).join(" -> ");
 }
+
+console.log(knightMoves([3, 3], [4, 3]));
